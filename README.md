@@ -14,7 +14,9 @@ To keep combat feeling fluid and dynamic, each move will have randomized animati
 
 I also plan to include enemy-linked takedowns, where dodging and movement feel like a dance of precision — redirecting enemy attacks into their allies.
 
-Additionally, I aim to experiment with realistic ragdoll physics, building a custom system that deviates from Roblox’s default physics engine — just for the challenge and fun of creating something unique.
+Additionally, I aim to experiment with realistic ragdoll physics, building a custom system that deviates from Roblox’s default physics engine — just for the challenge and fun of creating something unique. 
+
+The key feature I want to add to the system is a one time auto dodge based action. Where if you dont dodge the attack you block and redirect the attack as fast as lighting.
 
 ### Systems
 
