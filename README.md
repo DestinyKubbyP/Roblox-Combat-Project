@@ -1,116 +1,69 @@
-Roblox Combat Project
+# Roblox-Combat-Project
 
-Hello! I'm Peter, an 18-year-old developer who’s been exploring game development, reverse engineering, and the inner workings of computers for a few years.
-This will be my first in-depth public documentation of my Roblox combat system — a project that combines everything I’ve learned so far. 🙂
+Hello, I'm Peter and I am 18 years old and I've been working on game development, reversing, and learning the interworking's of computers for a couple years and haven't documented much. So, this will be my first public in-depth documentation of the interworking's of my Roblox Combat System :)
 
-🎯 Motivation & Vision
+I've always wanted to create a combat system that is extremly veristile and has elements of real life combat and anime style combat. I want to make a game that is a true power fantasy where you can feel like you rule the world with your destructive power!!
 
-I’ve always wanted to create a combat system that’s extremely versatile, blending elements of realistic fighting and anime-style action.
-My goal is to make a true power fantasy — a game where you feel like you rule the world through sheer destructive power.
-
-This system is heavily inspired by Batman’s Free-Flow Combat mechanics.
+The combat system will be heavily inspired off of batmans free flow combat
 
 <img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958" />
 
-The system will feature:
+The combat system will feature interactive environmental takedowns and multi-chain combo attacks, giving players freedom to decide how hard they strike.
+Every special move is scalable, meaning the player determines how much energy or force is put into an attack.
+To keep combat feeling fluid and dynamic, each move will have randomized animation variants and context-based finishers.
 
-Interactive environmental takedowns
+I also plan to include enemy-linked takedowns, where dodging and movement feel like a dance of precision — redirecting enemy attacks into their allies.
 
-Multi-chain combo attacks
+Additionally, I aim to experiment with realistic ragdoll physics, building a custom system that deviates from Roblox’s default physics engine — just for the challenge and fun of creating something unique. 
 
-Scalable special moves where you control the power level
+The key feature I want to add to the system is a one time auto dodge based action. Where if you dont dodge the attack you block and redirect the attack as fast as lighting.
 
-Randomized animation variants for fluidity and variety
+### Systems
 
-Enemy-linked takedowns that turn dodging into a dance of precision, redirecting attacks into other enemies
+There will be a ton of different systems that are intertwined so it can get a bit confusing at times.
 
-A one-time auto-dodge mechanic that triggers lightning-fast counterattacks
 
-Custom ragdoll physics that deviate from Roblox’s engine (just for the fun of building something unique)
+- [Modules](#Modules)
+- [Animations](#usage)
 
-🧩 Systems Overview
+## Modules
 
-There will be many interconnected systems, so things may get complex at times.
-
-Modules
-
-Animations
-
-Scripts
-
-⚙️ Modules
-Ray Module
+### Ray Module
 <img width="1300" height="759" alt="image" src="https://github.com/user-attachments/assets/c8b1060f-ae2f-48dc-8aa5-4ae2603d5dfa" />
 
-The Ray Module handles all raycasting logic.
-It will be used for:
+We will have a few key modules firstly is our raycast module. This will hold our simple casting function for now. We will be using this for mutiple things like casting smashpoint, projectiles, and checking world positions relative to other objects bounding size. It will be the major component in pretty much every key aspect of our combat system :0
 
-Detecting hit points (smash points, projectiles, etc.)
 
-Checking world positions relative to object bounds
+## Scripts 
 
-Supporting every major combat interaction
+### Client
 
-This module is a core component of the combat system. :0
+Our client is where everything will be handled. This game I'm making will souley be handled on the client meaning I don't have to do any form of communication with the server. The only communciation I will be making with the server is for game saves and other processes that may require data storing.
 
-🧠 Scripts
-Client
-
-All gameplay logic runs entirely on the client.
-The only communication with the server will be for saving data and persistence tasks.
-
-🧩 Variables and Environment
-
-Our scripts, modules, and instance values are stored under StarterPlayerScripts.
+#### Variables and Enviroment
+First lets talk about the structure of our enviroment and variables that we need to define.
+First our scripts, modules, and instance values will be stored under the starter player scripts
 
 <img width="830" height="188" alt="image" src="https://github.com/user-attachments/assets/3fc61471-6919-4f68-be8f-c4bde305b822" />
 
-Maintaining this ancestor-child structure helps keep the project organized.
-For example, to access a player’s money value stored in a Values folder:
-
-script.Parent.Values.Money
-
-
-This makes revisiting the code much easier after a break.
-You can see another example below where we access the Rays module.
+We will need to remember this ancestor child dynamic because we will be navigating through this enviroment quite frequently. For example if we stored our money value in a instance value in the values folder and we were located in our clients script enviroment we would do. "script.Parent.Values.Money" this makes things more organized and tollerable to come back to after a long break. You can see another example of this in the image below when we acsess our "Rays" module :)
 
 <img width="1713" height="318" alt="image" src="https://github.com/user-attachments/assets/4a4bb83e-0e3b-4ed9-b5ee-cca900a368f6" />
 
-We define key objects and services such as Players and ReplicatedStorage to access assets and organize workspace parts.
-This structure also helps us exclude objects from raycasts more easily.
+We define key objects and services needed to carry out coding. We grab the Players and ReplicatedStorage path ways so we can acsess certain assets and objects. We have a couple folders in our workspace that we help organize part creation. This also makes it easier to exclude certain objects from casting. 
 
-The mouse will be used for interactive UI events (covered later).
+We will be using our mouse for some interactable UI events which we will get into a lot later on.
 
-🧱 Types
+#### Types
 <img width="1046" height="551" alt="image" src="https://github.com/user-attachments/assets/25d85710-8eb0-45b6-a699-07fcb925eb28" />
 
-I usually don’t use types in Lua because of how loosely the language handles objects.
-The type() function mainly improves readability — it’s not about memory safety like in lower-level languages.
-In Lua, you don’t need to worry about issues like casting a 2-byte value into a 4-byte slot.
+I usally don't use types in Lua because I don't really enjoy how they handle objects in general. Its a lot more less defined and loose. type in lua is pretty usless it just makes the code more readable to me and you. You don't have to worry about corrupting memory by casting types improperly.
 
-<img width="672" height="194" alt="image" src="https://github.com/user-attachments/assets/0403db6e-7068-456d-9c0f-0d5506977abe" /> <img width="730" height="814" alt="image" src="https://github.com/user-attachments/assets/ec648650-5042-4772-92f9-7899a00fc715" />
+<img width="672" height="194" alt="image" src="https://github.com/user-attachments/assets/0403db6e-7068-456d-9c0f-0d5506977abe" />
 
-This setup initializes the player character, handling spawning, dying, leaving, or any event that removes the character.
-It loads animations, stores them in a table for easy access, and ensures all animations stop cleanly when the character resets.
+<img width="730" height="814" alt="image" src="https://github.com/user-attachments/assets/ec648650-5042-4772-92f9-7899a00fc715" />
 
-💬 Notes
+This will be setting up our main character and handle the initalization of the player spawning in ,dying, leaving or any other event that causes character removal or initalization. This will setup the basic framework for our character. On character intialziation we create the dictonary of data and load all animations and store the animation tracks in a table so they are easily assesable. All deinitalizing does is stop all running animations and disconnect any active connections.
 
-Taking a short break, but this project will be my main focus for a while — I want to fully demonstrate my skills and push what’s possible in Roblox Studio!
 
-💡 Quick Fixes
-
-Here are a few small typos you could clean up:
-
-“veristile” → “versatile”
-
-“interworking's” → “inner workings”
-
-“mutiple” → “multiple”
-
-“enviroment” → “environment”
-
-“tollerable” → “tolerable”
-
-“acsess” → “access”
-
-“souley” → “solely”
+-----------------------------Taking a break and will continue on this project tmrw this project will be my main focus for a while cause I want to demostrate my skills :)
