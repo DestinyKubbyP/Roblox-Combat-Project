@@ -119,6 +119,11 @@ This ensures realism — players won’t float or clip mid-air when activating t
 Once triggered, the ability executes a cinematic sequence involving debris, physics impulses, and layered animations.  
 The player fades, teleports, and performs synchronized animations that blend seamlessly with the environment.
 
+<img width="1006" height="133" alt="image" src="https://github.com/user-attachments/assets/65dbaf9c-9b5d-4f66-910f-655408f4472c" />
+
+This is how the inputs are handled. With the formated ability table. It sees if the keys are even used in general and checks if the key pressed is a ability bind and activates the ability based off its activate function. This will work for all abiltites and moves. 
+
+
 These are the functions used for smash wall and I will go more in depth : 
 
 ```lua
@@ -177,6 +182,134 @@ local lowest_surface_from_pos = function(position : CFrame) : Vector3
 	})
 
 	return results and results.Position
+end
+
+smash_wall = function() : boolean
+	print("Activated")
+	if lchar.dead then return false end
+	local distance = (current_position - current_smash_point).Magnitude
+	if distance > 5 then return false end
+	local current_wall = current_wall
+	local current_smash_point = current_smash_point;
+	local wall_normal = wall_normal
+	local root = lchar.body_parts.HumanoidRootPart
+	local left_arm = lchar.body_parts["Left Arm"]
+	local new_cf = CFrame.new(current_smash_point + (wall_normal * 1.5),current_smash_point + (wall_normal * 5))
+	local unit = new_cf - new_cf.Position
+	local arm_tip = (left_arm.CFrame + (left_arm.CFrame.UpVector * Vector3.new(1,left_arm.Size.Y / 2,0))).Position
+	local smash_arm_diff = ((arm_tip - current_smash_point) * Vector3.new(1,0,1)).Magnitude
+	local size_add = (root.Size.Y / 2) + (lchar.body_parts["Left Leg"].Size.Y)
+
+
+	character_fade() 
+	wait(0.1)
+	new_cf = new_cf + (unit.RightVector * (3))
+	root.CFrame = (CFrame.new(lowest_surface_from_pos(new_cf)) * new_cf.Rotation) + Vector3.new(0,size_add,0)
+	root.Anchored = true
+	active_abilities.wall_smash.last_active = tick()
+	local wall_smash_anim = lchar.animations.SmashWall;
+	local grab_rock_anim = lchar.animations.GrabRock
+	local throw_anim = lchar.animations.Throw
+
+	local start = tick()
+	local throw_start = tick()
+	local tossed_to_other = false;
+	print(string.rep("=",7).."Action Event"..string.rep("=",7))
+	local main_rock;
+
+
+	local animation_handling : thread; animation_handling = task.spawn(function()
+		wall_smash_anim.Priority = Enum.AnimationPriority.Action4
+		wall_smash_anim:Play()
+		task.wait(0.05)
+
+
+		for i = 1,10 do 
+			local rock = Instance.new("Part",workspace)
+			rock.Size = Vector3.new(0.4,0.4,0.4)
+			rock.Anchored = false 
+			rock.Material = current_wall.Material
+			rock.Color = current_wall.Color
+			rock.Parent = workspace
+			rock.CFrame = CFrame.new(current_smash_point) + (wall_normal * 3)
+			rock.Velocity = Vector3.new(math.random(-10,10),math.random(10,20),math.random(-10,10))
+		end
+		
+		local larm = lchar.body_parts["Left Arm"];
+		local rock = replicated.Assets.Rock:Clone()
+		local grab_cf = CFrame.new(larm.LeftGripAttachment.WorldCFrame.Position,larm.LeftGripAttachment.WorldCFrame.Position + (wall_normal * 4))
+		rock.Parent = workspace
+		rock.Anchored = true
+		rock.CFrame = CFrame.new(current_smash_point) + (wall_normal * 1.6)
+		rock.Material = current_wall.Material
+		rock.Color = current_wall.Color
+		rock.ParticleEmitter.Acceleration = grab_cf.LookVector
+		rock.ParticleEmitter.Color = ColorSequence.new(rock.Color)
+		main_rock = rock
+		main_rock.SmashSound:Play()
+	
+		local cracked_wall = replicated.Assets.Crack:Clone()
+		cracked_wall.Parent = workspace
+		cracked_wall.Size = Vector3.new(1,1,0.1)
+		cracked_wall.Transparency = 1
+		cracked_wall.Anchored = true
+		cracked_wall.CFrame = CFrame.new(current_smash_point,current_smash_point + (wall_normal * 5))
+
+		
+		repeat task.wait() until wall_smash_anim.IsPlaying == false;
+		print("Smashed Wall!")
+	
+	
+	
+		if rock and rock:FindFirstChild("ParticleEmitter") then 	
+			rock.ParticleEmitter.Enabled = false
+		end 
+		
+		grab_rock_anim.Priority = Enum.AnimationPriority.Action4
+		grab_rock_anim:Play()
+		repeat task.wait() until grab_rock_anim.IsPlaying == false 
+		rock.Anchored = false 
+		rock.CFrame = larm.LeftGripAttachment.WorldCFrame
+		local a1 = Instance.new("WeldConstraint",rock)
+		a1.Part0 = larm 
+		a1.Part1 = rock
+		
+		print("Grabbed Rock!")
+		throw_start = tick()
+		throw_anim.Priority = Enum.AnimationPriority.Action4
+		throw_anim:Play()
+		return;
+	end)
+
+	local event_handling : thread; event_handling = task.spawn(function()
+		while task.wait() do 
+			local diff = (tick() - throw_start)
+
+
+			if diff >= time_frames.Throw.toss_rock.end_t and not tossed_to_other then 
+				print("Toss to right")
+				tossed_to_other = true;
+			end
+
+
+			if diff >= time_frames.Throw.release_rock.end_t and throw_anim.IsPlaying then 
+				print("Throw!")
+				
+				lchar.body_parts.HumanoidRootPart.Anchored = false
+				
+				if main_rock then 
+					main_rock:Destroy()
+					main_rock = nil
+				end
+				
+				return;
+			end
+		end
+
+		return
+	end)
+
+	return true
 end
 ```
 
