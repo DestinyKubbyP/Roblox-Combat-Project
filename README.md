@@ -37,3 +37,4 @@ We define key objects and services needed to carry out coding. We grab the Playe
 
 We will be using our mouse for some interactable UI events which we will get into a lot later on.
 <img width="1046" height="551" alt="image" src="https://github.com/user-attachments/assets/25d85710-8eb0-45b6-a699-07fcb925eb28" />
+<img width="730" height="814" alt="image" src="https://github.com/user-attachments/assets/ec648650-5042-4772-92f9-7899a00fc715" />
