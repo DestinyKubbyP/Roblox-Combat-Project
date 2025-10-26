@@ -91,7 +91,7 @@ The mouse will be used for **interactive UI events**, which will be covered late
 <img width="1046" height="551" alt="image" src="https://github.com/user-attachments/assets/25d85710-8eb0-45b6-a699-07fcb925eb28" />
 
 I usually don’t use **types** in Lua because of how loosely the language handles objects.  
-The `type()` function mainly improves readability — it doesn’t add any safety like static casting in lower-level languages.  
+The `type` `'casting'` mainly improves readability — it doesn’t add any safety like static casting in lower-level languages.  
 You don’t need to worry about things like corrupting memory by casting a 2-byte value into a 4-byte slot.
 
 <img width="672" height="194" alt="image" src="https://github.com/user-attachments/assets/0403db6e-7068-456d-9c0f-0d5506977abe" />
@@ -106,27 +106,5 @@ It loads animations, stores them in a table for easy access, and ensures all ani
 ## 🛠️ Notes
 
 Taking a short break, but this project will be my **main focus** for a while — I want to fully demonstrate my skills and push what’s possible in Roblox Studio!
-
----
-
-## 🧹 Small Fixes & Polish
-
-Just a few small spelling/grammar improvements you might want to keep in mind:
-- “veristile” → **versatile**  
-- “interworking's” → **inner workings**  
-- “mutiple” → **multiple**  
-- “enviroment” → **environment**  
-- “tollerable” → **tolerable**  
-- “acsess” → **access**  
-- “souley” → **solely**
-
----
-
-## 🚀 Final Thoughts
-
-This README does exactly what it should — it **tells your story**, **shows your technical process**, and **captures your passion**.  
-It’s not just documentation — it’s a devlog that reflects your growth as a programmer and designer.
-
-Keep building, keep documenting, and this repo could easily become a reference point for others learning Roblox combat design!
 
 ---
