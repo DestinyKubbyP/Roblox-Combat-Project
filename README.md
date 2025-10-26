@@ -2,6 +2,13 @@
 
 Hello, I'm Peter and I am 18 years old and I've been working on game development, reversing, and learning the interworking's of computers for a couple years and haven't documented much. So, this will be my first public in-depth documentation of the interworking's of my Roblox Combat System :)
 
+I've always wanted to create a combat system that is extremly veristile and has elements of real life combat and anime style combat. I want to make a game that is a true power fantasy where you can feel like you rule the world with your destructive power!!
+
+The combat system will be heavily inspired off of batmans free flow combat
+
+<img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958" />
+
+
 ### Systems
 
 There will be a ton of different systems that are intertwined so it can get a bit confusing at times.
