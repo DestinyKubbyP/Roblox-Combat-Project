@@ -119,6 +119,67 @@ This ensures realism — players won’t float or clip mid-air when activating t
 Once triggered, the ability executes a cinematic sequence involving debris, physics impulses, and layered animations.  
 The player fades, teleports, and performs synchronized animations that blend seamlessly with the environment.
 
+These are the functions used for smash wall and I will go more in depth : 
+
+```lua
+
+local interacting_point_vis_min = create_instance("Part",{
+	Parent = workspace,
+	Color = Color3.fromRGB(255,0,0),
+	Anchored = true,
+	Material = Enum.Material.Neon,
+	Size = Vector3.new(1,1,1),
+	CanCollide = false
+})
+
+local interacting_point_vis_max = create_instance("Part",{
+	Parent = workspace,
+	Color = Color3.fromRGB(255,0,0),
+	Anchored = true,
+	Material = Enum.Material.Neon,
+	Size = Vector3.new(1,1,1),
+	CanCollide = false
+})
+
+---combat functions
+
+local used_keys = {"E"}
+local smash_wall;
+local q_events = {}
+local current_wall,current_smash_point,current_position,wall_normal
+local active_abilities : abilties;
+
+local character_fade = function(new_cords : CFrame) 
+	local original_cf = lchar.body_parts.HumanoidRootPart.CFrame
+
+	for i,v in pairs(lchar.body_parts) do 
+		local part = v:Clone()
+		part.Parent = workspace
+		part.Transparency = 0.7
+		part.CanCollide = false
+		part.Anchored = true
+		part.Size = v.Size 
+		part.CFrame = v.CFrame
+		part.Material = Enum.Material.ForceField
+		part.Color = Color3.fromRGB(0,124,233)
+		game:GetService("Debris"):AddItem(part,0.2)
+	end
+end
+
+local lowest_surface_from_pos = function(position : CFrame) : Vector3
+	if not lchar then return end
+	local root = lchar.body_parts.HumanoidRootPart
+	local results = ray_casting.shoot_ray({
+		distance = -1000,
+		orig = position.Position,
+		dir = root.CFrame.UpVector,
+		ignores = {lchar.self},
+	})
+
+	return results and results.Position
+end
+```
+
 ---
 
 There’s a lot happening under the hood in these systems — from **timing-based animation sequencing** to **custom physics manipulation**.  
