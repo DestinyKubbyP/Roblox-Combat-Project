@@ -18,7 +18,8 @@ There will be a ton of different systems that are intertwined so it can get a bi
 We will have a few key modules firstly is our raycast module. This will hold our simple casting function for now. We will be using this for mutiple things like casting smashpoint, projectiles, and checking world positions relative to other objects bounding size. It will be the major component in pretty much every key aspect of our combat system :0
 
 
-## Scripts 
+## Scripts <img width="672" height="194" alt="image" src="https://github.com/user-attachments/assets/0403db6e-7068-456d-9c0f-0d5506977abe" />
+
 
 ### Client
 
