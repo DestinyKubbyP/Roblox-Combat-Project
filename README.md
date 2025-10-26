@@ -1,7 +1,7 @@
 # ⚔️ Roblox Combat Project
 
 Hello! I'm **Peter**, an 18-year-old developer who’s been exploring **game development**, **reverse engineering**, and the **inner workings of computers** for a few years.  
-This will be my **first in-depth public documentation** of my Roblox combat system — a project that combines everything I’ve learned so far. 🙂
+This will be my **first in-depth public documentation** of my Roblox combat system — a project that combines everything I’ve learned so far. This project will be constantly updating and you will see it build on itself 🙂
 
 ---
 
@@ -15,6 +15,11 @@ The system takes heavy inspiration from **Batman’s Free-Flow Combat** mechanic
 <img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958" />
 
 ---
+
+abilties image
+<img width="458" height="149" alt="image" src="https://github.com/user-attachments/assets/21c3ced2-35f5-47aa-be10-ba9d5480e353" />
+main combat loop for smash
+<img width="916" height="706" alt="image" src="https://github.com/user-attachments/assets/04ecf535-f6af-485e-ba54-784f1ffa2bfa" />
 
 ## 🌀 Core Combat Features
 
