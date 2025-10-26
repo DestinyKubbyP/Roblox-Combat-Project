@@ -14,17 +14,156 @@ The system takes heavy inspiration from **Batman’s Free-Flow Combat** mechanic
 
 <img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958" />
 
+
 ---
 
 
-This is the format for our ablities and how our input will be handled. This will make it easy for user customazation and other features.
+This is the format for our ablities and how our input will be handled. This will make it easy for user customazation and other features. 
 <img width="458" height="149" alt="image" src="https://github.com/user-attachments/assets/21c3ced2-35f5-47aa-be10-ba9d5480e353" />
 
-This will be the main loop for how our combat works.
+It will have specfic information to the action and will store usful infromation like when it was last active, currently active, and the sepcfied bind used to activate such ability.
+
+This will be the main loop for how our combat works. For now it only handles our smash wall. It shoots a ray via the direction and origin of the camera. If it hits a interactable wall within the distance of 300 meters it will set the data for our smash wall function. We also display the minium and maximum height of the smash. The intersecting_point_vis_min is used as a max height for our smash wall. It wouldnt make sense if we teleported in the air levitating smash a wall and then procced to throw a rock. 
+
 <img width="916" height="706" alt="image" src="https://github.com/user-attachments/assets/04ecf535-f6af-485e-ba54-784f1ffa2bfa" />
 
-This is how we handle all our inputs
+
+You remember how we set our globals earlier in our main loop for our combat. Well this is where they will be used. Once the bind is pressed which would be E.
+
 <img width="1006" height="133" alt="image" src="https://github.com/user-attachments/assets/282cbb22-c321-4894-8d9c-6a13b31eaac6" />
+
+This is the function that is assigned to the activate function.
+
+```lua
+smash_wall = function() : boolean
+	print("Activated")
+	if lchar.dead then return false end
+	local distance = (current_position - current_smash_point).Magnitude
+	if distance > 5 then return false end
+	local current_wall = current_wall
+	local current_smash_point = current_smash_point;
+	local wall_normal = wall_normal
+	local root = lchar.body_parts.HumanoidRootPart
+	local left_arm = lchar.body_parts["Left Arm"]
+	local new_cf = CFrame.new(current_smash_point + (wall_normal * 1.5),current_smash_point + (wall_normal * 5))
+	local unit = new_cf - new_cf.Position
+	local arm_tip = (left_arm.CFrame + (left_arm.CFrame.UpVector * Vector3.new(1,left_arm.Size.Y / 2,0))).Position
+	local smash_arm_diff = ((arm_tip - current_smash_point) * Vector3.new(1,0,1)).Magnitude
+	local size_add = (root.Size.Y / 2) + (lchar.body_parts["Left Leg"].Size.Y)
+
+
+	character_fade() 
+	wait(0.1)
+	new_cf = new_cf + (unit.RightVector * (3))
+	root.CFrame = (CFrame.new(lowest_surface_from_pos(new_cf)) * new_cf.Rotation) + Vector3.new(0,size_add,0)
+	root.Anchored = true
+	active_abilities.wall_smash.last_active = tick()
+	local wall_smash_anim = lchar.animations.SmashWall;
+	local grab_rock_anim = lchar.animations.GrabRock
+	local throw_anim = lchar.animations.Throw
+
+	local start = tick()
+	local throw_start = tick()
+	local tossed_to_other = false;
+	print(string.rep("=",7).."Action Event"..string.rep("=",7))
+	local main_rock;
+
+
+	local animation_handling : thread; animation_handling = task.spawn(function()
+		wall_smash_anim.Priority = Enum.AnimationPriority.Action4
+		wall_smash_anim:Play()
+		task.wait(0.05)
+
+
+		for i = 1,10 do 
+			local rock = Instance.new("Part",workspace)
+			rock.Size = Vector3.new(0.4,0.4,0.4)
+			rock.Anchored = false 
+			rock.Material = current_wall.Material
+			rock.Color = current_wall.Color
+			rock.Parent = workspace
+			rock.CFrame = CFrame.new(current_smash_point) + (wall_normal * 3)
+			rock.Velocity = Vector3.new(math.random(-10,10),math.random(10,20),math.random(-10,10))
+		end
+		
+		local larm = lchar.body_parts["Left Arm"];
+		local rock = replicated.Assets.Rock:Clone()
+		local grab_cf = CFrame.new(larm.LeftGripAttachment.WorldCFrame.Position,larm.LeftGripAttachment.WorldCFrame.Position + (wall_normal * 4))
+		rock.Parent = workspace
+		rock.Anchored = true
+		rock.CFrame = CFrame.new(current_smash_point) + (wall_normal * 1.6)
+		rock.Material = current_wall.Material
+		rock.Color = current_wall.Color
+		rock.ParticleEmitter.Acceleration = grab_cf.LookVector
+		rock.ParticleEmitter.Color = ColorSequence.new(rock.Color)
+		main_rock = rock
+		main_rock.SmashSound:Play()
+	
+		local cracked_wall = replicated.Assets.Crack:Clone()
+		cracked_wall.Parent = workspace
+		cracked_wall.Size = Vector3.new(1,1,0.1)
+		cracked_wall.Transparency = 1
+		cracked_wall.Anchored = true
+		cracked_wall.CFrame = CFrame.new(current_smash_point,current_smash_point + (wall_normal * 5))
+
+		
+		repeat task.wait() until wall_smash_anim.IsPlaying == false;
+		print("Smashed Wall!")
+	
+	
+	
+		if rock and rock:FindFirstChild("ParticleEmitter") then 	
+			rock.ParticleEmitter.Enabled = false
+		end 
+		
+		grab_rock_anim.Priority = Enum.AnimationPriority.Action4
+		grab_rock_anim:Play()
+		repeat task.wait() until grab_rock_anim.IsPlaying == false 
+		rock.Anchored = false 
+		rock.CFrame = larm.LeftGripAttachment.WorldCFrame
+		local a1 = Instance.new("WeldConstraint",rock)
+		a1.Part0 = larm 
+		a1.Part1 = rock
+		
+		print("Grabbed Rock!")
+		throw_start = tick()
+		throw_anim.Priority = Enum.AnimationPriority.Action4
+		throw_anim:Play()
+		return;
+	end)
+
+	local event_handling : thread; event_handling = task.spawn(function()
+		while task.wait() do 
+			local diff = (tick() - throw_start)
+
+
+			if diff >= time_frames.Throw.toss_rock.end_t and not tossed_to_other then 
+				print("Toss to right")
+				tossed_to_other = true;
+			end
+
+
+			if diff >= time_frames.Throw.release_rock.end_t and throw_anim.IsPlaying then 
+				print("Throw!")
+				
+				lchar.body_parts.HumanoidRootPart.Anchored = false
+				
+				if main_rock then 
+					main_rock:Destroy()
+					main_rock = nil
+				end
+				
+				return;
+			end
+		end
+
+		return
+	end)
+
+	return true
+end
+```
+
 
 
 ## 🌀 Core Combat Features
