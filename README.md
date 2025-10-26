@@ -8,6 +8,13 @@ The combat system will be heavily inspired off of batmans free flow combat
 
 <img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958" />
 
+The combat system will feature interactive environmental takedowns and multi-chain combo attacks, giving players freedom to decide how hard they strike.
+Every special move is scalable, meaning the player determines how much energy or force is put into an attack.
+To keep combat feeling fluid and dynamic, each move will have randomized animation variants and context-based finishers.
+
+I also plan to include enemy-linked takedowns, where dodging and movement feel like a dance of precision — redirecting enemy attacks into their allies.
+
+Additionally, I aim to experiment with realistic ragdoll physics, building a custom system that deviates from Roblox’s default physics engine — just for the challenge and fun of creating something unique.
 
 ### Systems
 
