@@ -66,4 +66,4 @@ I usally don't use types in Lua because I don't really enjoy how they handle obj
 This will be setting up our main character and handle the initalization of the player spawning in ,dying, leaving or any other event that causes character removal or initalization. This will setup the basic framework for our character. On character intialziation we create the dictonary of data and load all animations and store the animation tracks in a table so they are easily assesable. All deinitalizing does is stop all running animations and disconnect any active connections.
 
 
------------------------------Taking a break and will continue on this project tmrw :)
+-----------------------------Taking a break and will continue on this project tmrw this project will be my main focus for a while cause I want to demostrate my skills :)
