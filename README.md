@@ -36,3 +36,4 @@ We will need to remember this ancestor child dynamic because we will be navigati
 We define key objects and services needed to carry out coding. We grab the Players and ReplicatedStorage path ways so we can acsess certain assets and objects. We have a couple folders in our workspace that we help organize part creation. This also makes it easier to exclude certain objects from casting. 
 
 We will be using our mouse for some interactable UI events which we will get into a lot later on.
+<img width="1046" height="551" alt="image" src="https://github.com/user-attachments/assets/25d85710-8eb0-45b6-a699-07fcb925eb28" />
