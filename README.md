@@ -6,7 +6,7 @@ I've always wanted to create a combat system that is extremly veristile and has 
 
 The combat system will be heavily inspired off of batmans free flow combat
 
-<img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958.gif" />
+<img width="512" height="288" alt="gif" src="https://github.com/user-attachments/assets/fa2630a0-ec05-4389-9bea-b0a664c74958" />
 
 
 ### Systems
