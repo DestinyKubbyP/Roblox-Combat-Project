@@ -16,10 +16,16 @@ The system takes heavy inspiration from **Batman’s Free-Flow Combat** mechanic
 
 ---
 
-abilties image
+
+This is the format for our ablities and how our input will be handled. This will make it easy for user customazation and other features.
 <img width="458" height="149" alt="image" src="https://github.com/user-attachments/assets/21c3ced2-35f5-47aa-be10-ba9d5480e353" />
-main combat loop for smash
+
+This will be the main loop for how our combat works.
 <img width="916" height="706" alt="image" src="https://github.com/user-attachments/assets/04ecf535-f6af-485e-ba54-784f1ffa2bfa" />
+
+This is how we handle all our inputs
+<img width="1006" height="133" alt="image" src="https://github.com/user-attachments/assets/282cbb22-c321-4894-8d9c-6a13b31eaac6" />
+
 
 ## 🌀 Core Combat Features
 
