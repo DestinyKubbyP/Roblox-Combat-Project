@@ -127,7 +127,7 @@ I’ve completely reworked how globals are defined and updated across the engine
 Roblox can be notoriously inconsistent when it comes to globalizing variables cleanly — especially when working across different environments and modules.
 
 To solve this, I’ve introduced a typed global table (_G_table) that holds all key runtime data. This data is now synchronized with both _G and the current script environment using a helper function, ensuring all scripts have consistent access to runtime variables without repetitive declarations.
-
+```lua
 type _G_table = {
 	current_wall: Instance?,
 	current_smash_point: Vector3?,
@@ -164,14 +164,14 @@ _G.update_globals = function()
 		getfenv(2)[i] = v -- Roblox’s environment scoping can be messy.
 	end
 end
-
+```
 
 This pattern makes it far easier to manage state between scripts without polluting the global space in unpredictable ways. It’s essentially a lightweight environment-syncing layer that acts like a “mini-engine” runtime controller.
 
 ⚙️ Character Initialization
 
 I also refined the character initialization logic to fit this new global system. Everything from the player’s limbs to animation bindings now registers directly into _G, which is then unpacked for local accessibility.
-
+```lua
 local init_character = function(char: Model): nil
 	lchar = {
 		body_parts = get_baseparts(char),
@@ -214,7 +214,7 @@ local init_character = function(char: Model): nil
 
 	lchar.animations = character_animations
 end
-
+```
 💡 Summary
 
 This new global management system:
