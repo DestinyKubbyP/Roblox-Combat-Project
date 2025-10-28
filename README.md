@@ -227,6 +227,11 @@ Provides a foundation for a true client runtime layer, almost like a tiny game e
 Roblox might fight against structured global usage, but that’s part of what makes building systems like this so fun. The more we tame the environment, the more ours the engine becomes — and that’s exactly what this project is about.
 
 More environment handling tweaks coming soon 👀
+
+🧱 Development Log — 10/28/2025 6:00 PM
+
+Ive pretty much revamped everything all effects are now modular same goes for connections, instance functions and math functions. We also added some error handing. I'm gonna wait till tmrw to doccument this. Its a lot :,(
+
 ---
 
 ## 🛠️ Notes
