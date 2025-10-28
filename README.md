@@ -103,8 +103,7 @@ Each ability stores **activation time**, **status**, and **bound input key**, ke
 
 Abilities like **Smash Wall** use precise raycasting for surface detection and realistic animations.  
 Here’s a simplified visualization:
-
-[![Visualization](https://img.youtube.com/vi/k6ALSq14ojQ/0.jpg)](https://youtu.be/k6ALSq14ojQ)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/k6ALSq14ojQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 These **interacting points** represent height limits for actions — above head height (red) means invalid smash range.  
 Above-head actions like **grappling** and **lunging** are handled separately.
@@ -115,8 +114,7 @@ The system for effects needs to be made more modular for wall smash effects, sou
 # 🧱 Development Log — 10/28/2025 11:32 AM
 
 I have finished the **main animation for the wall smashing**!
-
-[![Wall Smash Demo](https://img.youtube.com/vi/IFqYgCBWidQ/0.jpg)](https://youtu.be/IFqYgCBWidQ)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IFqYgCBWidQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 The projectile system is next — it will handle hit detection, motion prediction, and collision impact reactions.
 
