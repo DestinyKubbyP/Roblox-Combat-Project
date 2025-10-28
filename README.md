@@ -120,6 +120,116 @@ I have finished the **main animation for the wall smashing**!
 
 The projectile system is next — it will handle hit detection, motion prediction, and collision impact reactions.
 
+🧱 Development Log — 10/28/2025 1:00 PM
+🧩 Global Handling Overhaul
+
+I’ve completely reworked how globals are defined and updated across the engine.
+Roblox can be notoriously inconsistent when it comes to globalizing variables cleanly — especially when working across different environments and modules.
+
+To solve this, I’ve introduced a typed global table (_G_table) that holds all key runtime data. This data is now synchronized with both _G and the current script environment using a helper function, ensuring all scripts have consistent access to runtime variables without repetitive declarations.
+
+type _G_table = {
+	current_wall: Instance?,
+	current_smash_point: Vector3?,
+	current_position: Vector3?,
+	wall_normal: Vector3?,
+	lplr_larm: Instance?,
+	lplr_rarm: Instance?,
+	lplr_lleg: Instance?,
+	lplr_rleg: Instance?,
+	lplr_char: Instance?,
+	lplr_hrp: Instance?,
+	character_data: character
+}
+
+local ldata: _G_table = {
+	current_wall = nil,
+	current_smash_point = Vector3.new(),
+	current_position = Vector3.new(),
+	wall_normal = Vector3.new(),
+	lplr_larm = nil,
+	lplr_rarm = nil,
+	lplr_lleg = nil,
+	lplr_rleg = nil,
+	lplr_char = nil,
+	lplr_hrp = nil,
+	character_data = nil
+}
+
+_G.ldata = ldata
+
+_G.update_globals = function()
+	for i, v in pairs(ldata) do
+		_G[i] = v
+		getfenv(2)[i] = v -- Roblox’s environment scoping can be messy.
+	end
+end
+
+
+This pattern makes it far easier to manage state between scripts without polluting the global space in unpredictable ways. It’s essentially a lightweight environment-syncing layer that acts like a “mini-engine” runtime controller.
+
+⚙️ Character Initialization
+
+I also refined the character initialization logic to fit this new global system. Everything from the player’s limbs to animation bindings now registers directly into _G, which is then unpacked for local accessibility.
+
+local init_character = function(char: Model): nil
+	lchar = {
+		body_parts = get_baseparts(char),
+		health = 100,
+		dead = false,
+		connections = {},
+		animations = {},
+		velocity = Vector3.new(),
+		velocity_magnitude = 0,
+		velocity_direction = Vector3.new(),
+		velocity_normal = Vector3.new(),
+		inital_launch_v = Vector3.new(),
+		current_launch_v = Vector3.new(),
+		self = char
+	}
+
+	ldata.lplr_char = char
+	ldata.lplr_larm = char:WaitForChild("Left Arm")
+	ldata.lplr_rarm = char:WaitForChild("Right Arm")
+	ldata.lplr_lleg = char:WaitForChild("Left Leg")
+	ldata.lplr_rleg = char:WaitForChild("Right Leg")
+	ldata.lplr_hrp = char:WaitForChild("HumanoidRootPart")
+	ldata.character_data = lchar
+
+	_G.update_globals()
+
+	local character_animations = {}
+
+	repeat task.wait() until lchar.self:FindFirstChild("Humanoid")
+
+	for i, v in pairs(animation_ids) do
+		local animation = create_instance("Animation", {
+			AnimationId = "rbxassetid://" .. tostring(v),
+			Name = i,
+			Parent = char
+		})
+
+		character_animations[i] = lchar.self.Humanoid:LoadAnimation(animation)
+	end
+
+	lchar.animations = character_animations
+end
+
+💡 Summary
+
+This new global management system:
+
+Greatly improves readability and maintainability
+
+Keeps the type system in sync for better code hinting and IntelliSense
+
+Reduces redundancy across scripts
+
+Provides a foundation for a true client runtime layer, almost like a tiny game engine inside Roblox
+
+Roblox might fight against structured global usage, but that’s part of what makes building systems like this so fun. The more we tame the environment, the more ours the engine becomes — and that’s exactly what this project is about.
+
+More environment handling tweaks coming soon 👀
 ---
 
 ## 🛠️ Notes
