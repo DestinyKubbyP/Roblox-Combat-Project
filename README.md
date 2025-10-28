@@ -220,11 +220,8 @@ end
 This new global management system:
 
 Greatly improves readability and maintainability
-
-Keeps the type system in sync for better code hinting and IntelliSense
-
+Keeps the type system in sync for better code hinting and IntelliSense 
 Reduces redundancy across scripts
-
 Provides a foundation for a true client runtime layer, almost like a tiny game engine inside Roblox
 
 Roblox might fight against structured global usage, but that’s part of what makes building systems like this so fun. The more we tame the environment, the more ours the engine becomes — and that’s exactly what this project is about.
